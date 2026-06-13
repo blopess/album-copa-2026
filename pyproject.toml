@@ -1,0 +1,17 @@
+[project]
+name = "album_copa"
+version = "1.0.0"
+description = "Álbum de figurinhas Panini Copa do Mundo 2026"
+requires-python = ">=3.10"
+dependencies = [
+    "flet>=0.85",
+]
+
+[tool.flet]
+org = "com.brunolopes"
+product = "Album Copa 2026"
+company = "Bruno Lopes"
+copyright = "Copyright (C) 2026 Bruno Lopes"
+
+[tool.flet.android]
+package_name = "com.brunolopes.albumcopa"
