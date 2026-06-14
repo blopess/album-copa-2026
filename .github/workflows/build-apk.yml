@@ -12,27 +12,40 @@ jobs:
       - name: Checkout do codigo
         uses: actions/checkout@v4
 
-      - name: Configurar Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
-
       - name: Configurar Java 17
         uses: actions/setup-java@v4
         with:
           distribution: "temurin"
           java-version: "17"
 
-      - name: Configurar Flutter
+      - name: Configurar Flutter 3.41.7
         uses: subosito/flutter-action@v2
         with:
           channel: "stable"
+          flutter-version: "3.41.7"
+          cache: true
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
 
       - name: Instalar Flet
-        run: pip install "flet[all]"
+        run: |
+          python -m pip install --upgrade pip
+          pip install flet
+
+      - name: Verificar versoes
+        run: |
+          flet --version
+          flutter --version
 
       - name: Build APK
-        run: flet build apk --verbose
+        run: yes | flet build apk --verbose
+
+      - name: Listar arquivos gerados
+        if: always()
+        run: ls -R build/ || echo "pasta build nao encontrada"
 
       - name: Publicar APK
         uses: actions/upload-artifact@v4
@@ -40,3 +53,4 @@ jobs:
           name: album-copa-2026-apk
           path: build/apk/*.apk
           retention-days: 30
+          if-no-files-found: warn
